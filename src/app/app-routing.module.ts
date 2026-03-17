@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { EmployeeListComponent } from './features/employee/components/employee-list/employee-list.component';
 import { EmployeeCreateComponent } from './features/employee/components/employee-create/employee-create.component';
+import { AccountCreateComponent } from './features/employee/components/account-create/account-create.component';
 import { AccountListComponent } from './features/client/components/account-list/account-list.component';
 import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
@@ -23,12 +24,21 @@ const routes: Routes = [
     data: { permission: 'EMPLOYEE_MANAGE_ALL' }
   },
   {
+    path: 'employees/accounts/new',
+    component: AccountCreateComponent,
+    canActivate: [authGuard, roleGuard],
+    data: { permission: 'CLIENT_MANAGE' }
+  },
+  {
+    path: 'users',
+    loadChildren: () => import('./features/user/user.module').then((m) => m.UserModule)
+  },
+  {
     path: 'employees',
     component: EmployeeListComponent,
     canActivate: [authGuard, roleGuard],
     data: { permission: 'EMPLOYEE_MANAGE_ALL' }
   },
-  // F2 — Lista računa klijenta
   {
     path: 'accounts',
     component: AccountListComponent,
