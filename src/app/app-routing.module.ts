@@ -19,6 +19,9 @@ import { AccountCardsPlaceholderComponent } from './features/employee/account-ca
 import { ActuaryManagementComponent } from './features/employee/components/actuary-management/actuary-management.component';
 import { PaymentRecipientsComponent } from './features/client/components/payment-recipients/payment-recipients.component';
 import { PaymentHistoryComponent } from './features/client/components/payment-history/payment-history.component';
+import { SecuritiesListComponent } from './features/securities/components/securities-list/securities-list.component';
+import { SecurityDetailComponent } from './features/securities/components/security-detail/security-detail.component';
+import { StockDetailComponent } from './features/securities/components/stock-detail/stock-detail.component';
 import { LoanListComponent } from './features/client/components/loan-list/loan-list.component';
 import { LoanDetailsComponent } from './features/client/components/loan-details/loan-details.component';
 
@@ -132,6 +135,28 @@ const routes: Routes = [
     path: 'loans/:id',
     component: LoanDetailsComponent,
     canActivate: [authGuard]
+  },
+  {
+    path: 'securities',
+    component: SecuritiesListComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'securities/stock/:ticker',
+    component: StockDetailComponent,
+    canActivate: [authGuard]
+  },
+  {
+    path: 'securities/future/:ticker',
+    component: SecurityDetailComponent,
+    canActivate: [authGuard],
+    data: { securityType: 'future' }
+  },
+  {
+    path: 'securities/forex/:ticker',
+    component: SecurityDetailComponent,
+    canActivate: [authGuard],
+    data: { securityType: 'forex' }
   },
   {
     path: '**',

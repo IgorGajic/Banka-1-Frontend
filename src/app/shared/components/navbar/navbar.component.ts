@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit {
     { label: 'Transfer',   route: '/transfers/different', icon: 'currency_exchange' },
     { label: 'Menjačnica', route: '/exchange',            icon: 'currency_exchange' },
     { label: 'Primaoci plaćanja', route: '/payments/recipients', icon: 'people' },
+    { label: 'Hartije',    route: '/securities',          icon: 'trending_up' },
     { label: 'Krediti',    route: '/loans',               icon: 'credit_card' },
   ];
 
@@ -37,6 +38,7 @@ export class NavbarComponent implements OnInit {
     { label: 'Klijenti',   route: '/clients',             icon: 'person' },
     { label: 'Kreiraj račun', route: '/accounts/new',     icon: 'add_card' },
     { label: 'Upravljanje računima', route: '/account-management', icon: 'account_balance' },
+    { label: 'Hartije',    route: '/securities',          icon: 'trending_up' },
   ];
 
   private readonly supervisorLinks: NavLink[] = [
