@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../../environments/environment';
-import { Loan, LoanType, Installment, LoanRequestDto, LoanRequestResponse } from '../models/loan.model';
+import { Loan, Installment, LoanRequestDto, LoanRequestResponse } from '../models/loan.model';
 
 @Injectable({
   providedIn: 'root'

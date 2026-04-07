@@ -7,86 +7,21 @@ import { takeUntil } from 'rxjs/operators';
 import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
 import { LoanService } from '../../services/loan.service';
 import { AccountService } from '../../services/account.service';
-import { LoanRequestDto, LoanRequestResponse } from '../../models/loan.model';
+import {
+  LoanRequestDto,
+  LoanRequestResponse,
+  LoanTypeOption,
+  LoanTypeLabels,
+  LoanRepaymentTerms,
+  InterestRateType,
+  InterestRateTypeLabels,
+  Currency,
+  CurrencyLabels,
+  EmploymentStatus,
+  EmploymentStatusLabels
+} from '../../models/loan.model';
 import { Account } from '../../models/account.model';
 
-/**
- * Enumeracija za vrste kredita
- */
-export enum LoanTypeOption {
-  PERSONAL = 'PERSONAL',      // Gotovinski
-  MORTGAGE = 'MORTGAGE',      // Stambeni
-  AUTO = 'AUTO',              // Auto
-  REFINANCING = 'REFINANCING', // Refinansirajući
-  STUDENT = 'STUDENT'         // Studentski
-}
-
-/**
- * Labele za vrste kredita
- */
-export const LoanTypeLabels: Record<LoanTypeOption, string> = {
-  [LoanTypeOption.PERSONAL]: 'Gotovinski',
-  [LoanTypeOption.MORTGAGE]: 'Stambeni',
-  [LoanTypeOption.AUTO]: 'Auto',
-  [LoanTypeOption.REFINANCING]: 'Refinansirajući',
-  [LoanTypeOption.STUDENT]: 'Studentski'
-};
-
-/**
- * Enumeracija za tip kamatne stope
- */
-export enum InterestRateType {
-  FIXED = 'FIXED',       // Fiksna
-  VARIABLE = 'VARIABLE'  // Varijabilna
-}
-
-/**
- * Labele za tip kamatne stope
- */
-export const InterestRateTypeLabels: Record<InterestRateType, string> = {
-  [InterestRateType.FIXED]: 'Fiksna',
-  [InterestRateType.VARIABLE]: 'Varijabilna'
-};
-
-/**
- * Enumeracija za valute
- */
-export enum Currency {
-  RSD = 'RSD',
-  EUR = 'EUR',
-  USD = 'USD',
-  GBP = 'GBP',
-  CHF = 'CHF'
-}
-
-/**
- * Periodi otplate za različite vrste kredita (u mesecima)
- */
-export const LoanRepaymentTerms: Record<LoanTypeOption, number[]> = {
-  [LoanTypeOption.PERSONAL]: [12, 24, 36, 48, 60, 72, 84],
-  [LoanTypeOption.AUTO]: [12, 24, 36, 48, 60, 72, 84],
-  [LoanTypeOption.MORTGAGE]: [60, 120, 180, 240, 300, 360],
-  [LoanTypeOption.STUDENT]: [12, 24, 36, 48, 60, 72, 84],
-  [LoanTypeOption.REFINANCING]: [12, 24, 36, 48, 60, 72, 84]
-};
-
-/**
- * Enumeracija za status zaposlenja
- */
-export enum EmploymentStatus {
-  PERMANENT = 'PERMANENT',   // Stalno
-  TEMPORARY = 'TEMPORARY',   // Privremeno
-  UNEMPLOYED = 'UNEMPLOYED'  // Nezaposlen
-}
-
-/**
- * Labele za status zaposlenja
- */
-export const EmploymentStatusLabels: Record<EmploymentStatus, string> = {
-  [EmploymentStatus.PERMANENT]: 'Stalno',
-  [EmploymentStatus.TEMPORARY]: 'Privremeno',
-  [EmploymentStatus.UNEMPLOYED]: 'Nezaposlen'
-};
 
 interface SelectOption<T> {
   value: T;
@@ -95,9 +30,9 @@ interface SelectOption<T> {
 
 @Component({
   selector: 'app-loan-request',
-  standalone: true,
   imports: [CommonModule, ReactiveFormsModule, NavbarComponent],
   templateUrl: './loan-request.component.html',
+  standalone: true,
   styleUrls: ['./loan-request.component.scss']
 })
 export class LoanRequestComponent implements OnInit, OnDestroy {
@@ -123,11 +58,11 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
   ];
 
   currencyOptions: SelectOption<Currency>[] = [
-    { value: Currency.RSD, label: 'RSD - Srpski dinar' },
-    { value: Currency.EUR, label: 'EUR - Evro' },
-    { value: Currency.USD, label: 'USD - američki dolar' },
-    { value: Currency.GBP, label: 'GBP - britanska funta' },
-    { value: Currency.CHF, label: 'CHF - švajcarski franak' }
+    { value: Currency.RSD, label: CurrencyLabels[Currency.RSD] },
+    { value: Currency.EUR, label: CurrencyLabels[Currency.EUR] },
+    { value: Currency.USD, label: CurrencyLabels[Currency.USD] },
+    { value: Currency.GBP, label: CurrencyLabels[Currency.GBP] },
+    { value: Currency.CHF, label: CurrencyLabels[Currency.CHF] }
   ];
 
   employmentStatusOptions: SelectOption<EmploymentStatus>[] = [
@@ -183,7 +118,7 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
 
       // Sekcija 3: Račun i kontakt
       accountNumber: ['', Validators.required],
-      contactPhone: ['', [Validators.required, Validators.pattern(/^[0-9\-\+\s\(\)]+$/)]]
+      contactPhone: ['', [Validators.required, Validators.pattern(/^\+?[0-9\s\-\(\)]{7,15}$/)]]
     });
   }
 
@@ -200,7 +135,6 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
           this.filterAccountsByCurrency();
         },
         error: (err) => {
-          console.error('Error loading accounts:', err);
           this.errorMessage = 'Greška pri učitavanju računa. Molimo pokušajte ponovo.';
         }
       });
@@ -332,7 +266,6 @@ export class LoanRequestComponent implements OnInit, OnDestroy {
           }, 3000);
         },
         error: (err) => {
-          console.error('Error submitting loan request:', err);
           this.isSubmitting = false;
           this.errorMessage = err.error?.message || 'Greška pri podnošenju zahteva. Molimo pokušajte ponovo.';
         }

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { Loan, LoanStatus } from '../../models/loan.model';
+import { Loan, LoanStatus, LoanTypeLabels } from '../../models/loan.model';
 import { LoanService } from '../../services/loan.service';
 import { NavbarComponent } from 'src/app/shared/components/navbar/navbar.component';
 import { Subject } from 'rxjs';
@@ -62,14 +62,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
 
   getLoanTypeLabel(type: string | undefined): string {
     if (!type) return 'Nepoznati tip';
-    switch (type) {
-      case 'MORTGAGE': return 'Hipotekarni kredit';
-      case 'PERSONAL': return 'Keš kredit';
-      case 'AUTO': return 'Auto kredit';
-      case 'STUDENT': return 'Studentski kredit';
-      case 'BUSINESS': return 'Poslovni kredit';
-      default: return type;
-    }
+    return LoanTypeLabels[type as keyof typeof LoanTypeLabels] || type;
   }
 
   getStatusLabel(status: string | undefined): string {

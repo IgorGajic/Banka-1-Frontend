@@ -24,8 +24,7 @@ import { LoanRequestComponent } from './components/loan-request/loan-request.com
     TransactionDetailModalComponent,
     NewPaymentComponent,
     CardListComponent,
-    LoanListComponent,
-    LoanRequestComponent
+    LoanListComponent
   ]
 })
 export class ClientModule {}
