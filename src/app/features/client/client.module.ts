@@ -6,7 +6,10 @@ import { AccountListComponent } from './components/account-list/account-list.com
 import { AccountDetailsModalComponent } from "./modals/account-details-modal/account-details-modal.component";
 import { NewPaymentComponent } from './components/new-payment/new-payment.component';
 import { TransactionDetailModalComponent } from './modals/transaction-detail-modal/transaction-detail-modal.component';
+import {CardListComponent} from "@/features/client/components/card-list/card-list.component";
 import { LoanListComponent } from './components/loan-list/loan-list.component';
+import { LoanRequestComponent } from './components/loan-request/loan-request.component';
+
 @NgModule({
   declarations: [
 
@@ -20,6 +23,7 @@ import { LoanListComponent } from './components/loan-list/loan-list.component';
     AccountDetailsModalComponent,
     TransactionDetailModalComponent,
     NewPaymentComponent,
+    CardListComponent,
     LoanListComponent
   ]
 })
